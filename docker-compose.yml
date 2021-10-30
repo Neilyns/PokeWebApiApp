@@ -1,0 +1,32 @@
+
+version: '3.4'
+
+services:
+  pokewebapiapp:
+    depends_on:
+        - db
+    image: ${DOCKER_REGISTRY-}pokewebapiapp
+    build:
+      context: .
+      dockerfile: PokeWebApiApp/Dockerfile
+    ports:
+        - "8080:5000"
+
+  db:
+    image: mysql:8.0.27
+    environment:
+        MYSQL_ROOT_PASSWORD: 123@abc
+        MYSQL_DATABASE: pokemon
+        MYSQL_USER: neily
+        MYSQL_PASSWORD: 123@abc
+    volumes:
+        - dbdata:/var/lib/mysql
+    restart: always
+
+volumes:
+  dbdata:
+    
+networks:
+  default:
+  external:
+      name: pokemon-app
